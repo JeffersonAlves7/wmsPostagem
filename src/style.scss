@@ -1,0 +1,46 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+td, th{
+    border: 1px solid black;
+    text-align: center;
+    align-items: center;
+    padding: .2rem .4rem;
+}
+
+#loading{
+    $len: 25px;
+    $pix: 2px;
+    $border: $pix solid black;
+    border-left: $border;
+    border-top: $border;
+    border-right: $border;
+    border-bottom: $pix solid rgba(0, 0, 0, 0);
+    height: $len;
+    width: $len;
+    display: block;
+    border-radius: 50%;
+
+    animation-name: round;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+}
+
+@keyframes round {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
