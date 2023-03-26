@@ -35,20 +35,20 @@ const PedidoSituation = ({ situacao, onChange }: {
     return (
         <select defaultValue={situacao} onChange={onChange}>
             {
-                situacoes.map(situation => situacao === situation 
-                    ?   <option
+                situacoes.map(situation => situacao === situation
+                    ? <option
                         key={`situation-${situation}`}
                         value={situation}
                         selected
-                        >
-                            {situation}
-                        </option>
-                    :   <option
+                    >
+                        {situation}
+                    </option>
+                    : <option
                         key={`situation-${situation}`}
                         value={situation}
-                        >
-                            {situation}
-                        </option>
+                    >
+                        {situation}
+                    </option>
                 )
             }
         </select>
@@ -67,8 +67,8 @@ const PedidoComponent = ({ pedido, reloadPedido }: { pedido: Pedido, reloadPedid
             )}
             <td key={`${pedido.pedidoBling}-button`}>
                 <button
-                    onClick={() => {
-                        api.deletePedido(pedido.nf)
+                    onClick={async () => {
+                        await api.deletePedido(pedido.nf)
                         reloadPedido()
                     }}
                     className=" transition-all bg-red-400 p-2 rounded-lg w-10 border-2 shadow-lg hover:scale-110">
@@ -82,16 +82,6 @@ const PedidoComponent = ({ pedido, reloadPedido }: { pedido: Pedido, reloadPedid
 const BuscarPedidos = () => {
     const [busca, setBusca] = useState('')
     const [pedidos, setPedidos] = useState<Pedido[]>([])
-
-    useEffect(() => {
-        api.getPedido(busca)
-            .then(pedidosFromResponse => {
-                setPedidos(pedidosFromResponse)
-            })
-            .catch(e => {
-                console.log(`${e}`)
-            })
-    }, [busca])
 
     const reloadPedidos = async () => {
         api.getPedido(busca)
@@ -109,14 +99,14 @@ const BuscarPedidos = () => {
             <div className="flex items-center flex-col gap-4 w-full">
                 <h2 className=" text-center text-4xl font-bold">Buscar e alterar pedidos</h2>
                 <div className="flex  min-h-[3rem] max-w-[70rem] shadow-md w-full">
-                    <input type="search" name="search" id="search"
+                    <input type="search" onChange={(e) => {
+                        const value = e.target.value
+                        setBusca(value)
+                    }} name="search" id="search"
                         className='border border-slate-200 text-lg p-2 rounded-md  rounded-r-none w-full'
                         placeholder="Buscar pedido"
                     />
-                    <button onClick={() => {
-                        const { value } = document.querySelector('#search') as HTMLInputElement
-                        setBusca(value ?? '')
-                    }} className=" border border-l-0 w-[10%] rounded-md rounded-l-none">
+                    <button onClick={() => { reloadPedidos() }} className=" border border-l-0 w-[10%] rounded-md rounded-l-none">
                         <AiOutlineSearch className=" text-2xl h-full m-auto" />
                     </button>
                 </div>
@@ -124,7 +114,7 @@ const BuscarPedidos = () => {
                     pedidos.length > 0 && <table>
                         <thead>
                             <tr>
-                                {keysOfPedidos.map(key => <th>{key}</th>)}
+                                {keysOfPedidos.map(key => <th key={`header-${key}`}>{key}</th>)}
                                 <th>Apagar</th>
                             </tr>
                         </thead>
