@@ -1,5 +1,7 @@
 import { useState } from "react"
 import api from "../../api"
+import { SubTitle } from "../Texts"
+import View from "../View"
 
 function trateNumbers(numbers: string, log = false): string[] {
   const numbersSplitedWithSpaces = numbers.split(" ")
@@ -47,12 +49,20 @@ async function postPedidos(numbers: string[]): Promise<string[]> {
 const EnviarPedidos = () => {
   const [erros, setErros] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [success, setSuccess] = useState<any[]>([])
 
   return (
-    <section id="enviarPedidos" className="flex gap-6 items-center justify-center h-[100vh] w-full flex-col">
+    <View id="enviarPedidos">
       <div className="flex items-center flex-col gap-4 w-full max-w-[70rem]">
-        <h2 className=" text-center text-4xl font-bold">Enviar Pedidos para o WMS</h2>
-        <div>
+        <SubTitle>Enviar Pedidos</SubTitle>
+        <div className="flex flex-col gap-4">
+          {
+            success.length > 0 && 
+            <ul className=" flex flex-wrap gap-2 bg-green-300 rounded-md p-2">
+              <span>Sucesso: </span>
+              {success.map((suc, i) => <li key={suc + '-' + i}>{suc}</li>)}
+            </ul>
+          }
           {
             erros.length > 0 &&
             <ul className=" flex flex-wrap gap-2 bg-red-300 rounded-md p-2">
@@ -68,8 +78,12 @@ const EnviarPedidos = () => {
           <button onClick={async () => {
             const { value } = document.querySelector("#textArea") as HTMLTextAreaElement
             const numbersArray = trateNumbers(value ?? "")
+            setSuccess([])
             setLoading(true)
             const erros = await postPedidos(numbersArray)
+            setSuccess(numbersArray.filter(number=> {
+              return !erros.find(v => v === number)
+            }))
             setErros(erros)
             setLoading(false)
           }} className="p-2 rounded-md text-white bg-blue-600 pl-3 pr-3">
@@ -80,7 +94,7 @@ const EnviarPedidos = () => {
           </div>
         </div>
       </div>
-    </section>
+    </View>
   )
 }
 

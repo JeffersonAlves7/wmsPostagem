@@ -44,6 +44,19 @@ class Api {
       throw e
     }
   }
+
+  async getPastasNotas(): Promise<string[]>{
+    const { data } = await this.api.get("/notas/etiquetas")
+    return data
+  }
+
+  async carregarNotas(caminho: string): Promise<void>{
+    return this.api.get(`/notas/carregar/${caminho}`)
+  }
+
+  async carregarTodasAsNotas(): Promise<void>{
+    return this.api.get(`/notas/carregar`)
+  }
 }
 
 const api = new Api()
