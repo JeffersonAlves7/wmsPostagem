@@ -1,17 +1,17 @@
-import { useState, useEffect, useCallback, ChangeEvent } from "react"
+import { useState, ChangeEvent } from "react"
 import { AiOutlineSearch } from 'react-icons/ai'
 import api from "../../api"
 
 type Pedido = {
-    chavedeacesso: string,
-    nf: string,
-    idLista: string,
-    pedidoBling: string,
-    pedido: string,
-    integracao: string,
-    qntItens: string,
-    situacao: 'processando' | 'emaberto' | 'embalado' | 'finalizado',
-    alterado: string,
+    chavedeacesso: string
+    nf: string
+    idLista: string
+    pedidoBling: string
+    pedido: string
+    integracao: string
+    qntItens: string
+    situacao: 'processando' | 'emaberto' | 'embalado' | 'finalizado' | 'cancelado'
+    alterado: string
     gerado: string
 }
 
@@ -26,7 +26,7 @@ const keysOfPedidos: (keyof Pedido)[] = [
     'situacao',
 ]
 
-const situacoes: Pedido['situacao'][] = ['processando', 'emaberto', 'embalado', 'finalizado']
+const situacoes: Pedido['situacao'][] = ['processando', 'emaberto', 'embalado', 'finalizado', 'cancelado']
 
 const PedidoSituation = ({ situacao, onChange }: {
     situacao: Pedido['situacao'],
