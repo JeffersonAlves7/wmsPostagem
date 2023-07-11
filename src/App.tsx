@@ -1,5 +1,6 @@
 import BuscarPedidos from "./components/BuscarPedidos"
 import CarregarNotas from "./components/CarregarNotas"
+import DiscordForm from "./components/DiscordForm"
 import EnviarPedidos from "./components/EnviarPedidos"
 import Header from "./components/Header"
 import "./style.scss"
@@ -16,6 +17,7 @@ function App() {
         <EnviarPedidos/>
         <BuscarPedidos/>
         <CarregarNotas/>
+        <DiscordForm />
       </main>
     </div>
   )
