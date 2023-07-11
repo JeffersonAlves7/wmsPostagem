@@ -1,7 +1,7 @@
 import axios from "axios"
 
 class Api {
-  public api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
+  public api = axios.create({ baseURL: ""})
 
   async getPedido(busca: string = '') {
     const res = await this.api.get(`/pedidos/buscar?busca=${busca}`)
