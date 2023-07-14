@@ -45,6 +45,18 @@ class Api {
     }
   }
 
+  async postPedidosFlex(numbers: string[]): Promise<{ pedidoBling: string, error?: boolean }[]> {
+    try {
+      const res = await this.api.post("/pedidos/flex", { numPedido: numbers })
+      const { data } = res
+      return data
+    }
+    catch (e) {
+      console.log(`Error - post Pedido: ${e}`)
+      throw e
+    }
+  }
+
   async getPastasNotas(): Promise<string[]>{
     const { data } = await this.api.get("/notas/etiquetas")
     return data
