@@ -67,9 +67,7 @@ const EnviarPedidos = () => {
 
   const enviarMensagem = async () => {
     try {
-      await api.api.post("/send-message", {
-        message: "Tem um novo pedido",
-      });
+      await api.enviarNotificacao("Tem um novo pedido")
       console.log("Mensagem enviada para o bot do Discord");
     } catch (error) {
       console.error("Erro ao enviar mensagem para o bot do Discord:", error);

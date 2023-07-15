@@ -20,6 +20,12 @@ class Api {
     }
   }
 
+  async enviarNotificacao(message: string){
+    this.api.post("/send-message", {
+      message,
+    });
+  }
+
   async deletePedido(nf: string) {
     try {
       const res = await this.api.delete("/pedido", { data: { nf } })
