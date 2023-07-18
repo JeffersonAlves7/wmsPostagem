@@ -12,7 +12,7 @@ function App() {
       <Header
         links={[
           { id: "#enviarPedidos", title: "Enviar Pedidos" },
-          {id: "#enviarPedidosFlex", title: "Enviar Pedidos Flex"},
+          { id: "#enviarPedidosFlex", title: "Enviar Pedidos Flex" },
           { id: "#buscarPedidos", title: "Buscar Pedidos" },
           { id: "#carregarNotas", title: "Carregar Notas" },
           { id: "#enviarNotificacao", title: "Enviar Notificação" },
@@ -20,7 +20,7 @@ function App() {
       />
       <main className="container m-auto">
         <EnviarPedidos />
-        <EnviarPedidosFlex/>
+        <EnviarPedidosFlex />
         <BuscarPedidos />
         <CarregarNotas />
         <EnviarNotificacao />

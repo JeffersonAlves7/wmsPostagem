@@ -7,9 +7,7 @@ const EnviarNotificacao = () => {
   const [message, setMessage] = useState("");
 
   const handleSendMessage = () => {
-    api.enviarNotificacao(
-      message,
-    );
+    api.enviarNotificacao(message);
   };
 
   return (
