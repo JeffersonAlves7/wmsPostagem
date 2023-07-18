@@ -45,6 +45,14 @@ async function postPedidos(numbers: string[]): Promise<string[]> {
   return localErros;
 }
 
+const enviarMensagem = async () => {
+  try {
+    await api.enviarNotificacao("Chegaram novos pedidos!");
+  } catch (error) {
+    console.error("Erro ao enviar mensagem para o bot do Discord:", error);
+  }
+};
+
 const EnviarPedidos = () => {
   const [erros, setErros] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,23 +63,19 @@ const EnviarPedidos = () => {
       "#textArea"
     ) as HTMLTextAreaElement;
     const numbersArray = trateNumbers(value ?? "");
+    setErros([]);
     setSuccess([]);
     setLoading(true);
     const erros = await postPedidos(numbersArray);
-    setSuccess(
-      numbersArray.filter((number) => !erros.find((v) => v === number))
+    const sucessos = numbersArray.filter(
+      (number) => !erros.find((v) => v === number)
     );
-    setErros(erros);
-    setLoading(false);
-  };
-
-  const enviarMensagem = async () => {
-    try {
-      await api.enviarNotificacao("Tem um novo pedido")
-      console.log("Mensagem enviada para o bot do Discord");
-    } catch (error) {
-      console.error("Erro ao enviar mensagem para o bot do Discord:", error);
+    setSuccess(sucessos);
+    if (sucessos?.length > 0) enviarMensagem();
+    if (erros.length > 0) {
+      setErros(erros);
     }
+    setLoading(false);
   };
 
   return (
@@ -104,10 +108,7 @@ const EnviarPedidos = () => {
         ></textarea>
         <div className="self-start  flex gap-4 items-center justify-center">
           <button
-            onClick={async () => {
-              await handleClick();
-              await enviarMensagem();
-            }}
+            onClick={handleClick}
             className="p-2 rounded-md text-white bg-blue-600 pl-3 pr-3"
           >
             Enviar
