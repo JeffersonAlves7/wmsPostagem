@@ -11,12 +11,18 @@ class Api {
   async putPedido({
     chavedeacesso,
     situacao,
+    integracao,
   }: {
     chavedeacesso: string;
-    situacao: string;
+    situacao?: string;
+    integracao?: string;
   }) {
     try {
-      const res = await this.api.put("/pedidos", { chavedeacesso, situacao });
+      const res = await this.api.put("/pedidos", {
+        chavedeacesso,
+        situacao,
+        integracao,
+      });
       console.log(res.data);
       return res.data;
     } catch (e) {

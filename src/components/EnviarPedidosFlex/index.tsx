@@ -60,7 +60,7 @@ const EnviarPedidosFlex = () => {
 
   const handleClick = async () => {
     const { value } = document.querySelector(
-      "#textArea"
+      "#textArea-2"
     ) as HTMLTextAreaElement;
     const numbersArray = trateNumbers(value ?? "");
     setErros([]);

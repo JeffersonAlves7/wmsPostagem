@@ -31,6 +31,19 @@ const keysOfPedidos: (keyof Pedido)[] = [
   "situacao",
 ];
 
+const integracoes: Pedido["integracao"][] = [
+  "enviosflex",
+  "IntegraCommerce",
+  "SkyHub",
+  "Kabum",
+  "LojaIntegrada",
+  "Amazon",
+  "Wix",
+  "AmazonFullfilment",
+  "MercadoLivre",
+  "Shopee",
+];
+
 const situacoes: Pedido["situacao"][] = [
   "processando",
   "emaberto",
@@ -39,7 +52,7 @@ const situacoes: Pedido["situacao"][] = [
   "cancelado",
 ];
 
-const PedidoSituation = ({
+const PedidoSituacao = ({
   situacao,
   onChange,
 }: {
@@ -48,17 +61,36 @@ const PedidoSituation = ({
 }) => {
   return (
     <select defaultValue={situacao} onChange={onChange}>
-      {situacoes.map((situation) =>
-        situacao === situation ? (
-          <option key={`situation-${situation}`} value={situation} selected>
-            {situation}
-          </option>
-        ) : (
-          <option key={`situation-${situation}`} value={situation}>
-            {situation}
-          </option>
-        )
-      )}
+      {situacoes.map((currentSituation) => (
+        <option
+          key={`situation-${currentSituation}`}
+          value={currentSituation}
+          selected={situacao === currentSituation}
+        >
+          {currentSituation}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+const PedidoIntegracao = (props: {
+  integracao: Pedido["integracao"];
+  onChange(e: ChangeEvent): void;
+}) => {
+  const { integracao, onChange } = props;
+
+  return (
+    <select defaultValue={integracao} onChange={onChange}>
+      {integracoes.map((currentIntegration) => (
+        <option
+          key={`integracao-${currentIntegration}`}
+          value={currentIntegration}
+          selected={integracao === currentIntegration}
+        >
+          {currentIntegration}
+        </option>
+      ))}
     </select>
   );
 };
@@ -72,21 +104,31 @@ const PedidoComponent = ({
 }) => {
   return (
     <tr>
-      {keysOfPedidos.map((key) =>
-        key === "situacao" ? (
-          <td key={`${pedido.pedidoBling}-${key}`}>
-            <PedidoSituation
-              situacao={pedido.situacao}
+      {keysOfPedidos.map((key) => {
+        if (key === "situacao")
+          return (
+            <td key={`${pedido.pedidoBling}-${key}`}>
+              <PedidoSituacao
+                situacao={pedido.situacao}
+                onChange={(e) => {
+                  const { value } = e.target as HTMLSelectElement;
+                  api.putPedido({ ...pedido, situacao: value });
+                }}
+              />
+            </td>
+          );
+        else if (key == "integracao")
+          return (
+            <PedidoIntegracao
+              integracao={pedido.integracao}
               onChange={(e) => {
                 const { value } = e.target as HTMLSelectElement;
-                api.putPedido({ ...pedido, situacao: value });
+                api.putPedido({ ...pedido, integracao: value });
               }}
             />
-          </td>
-        ) : (
-          <td key={`${pedido.pedidoBling}-${key}`}>{pedido[key]}</td>
-        )
-      )}
+          );
+        else return <td key={`${pedido.pedidoBling}-${key}`}>{pedido[key]}</td>;
+      })}
       <td key={`${pedido.pedidoBling}-button`}>
         <button
           onClick={async () => {
